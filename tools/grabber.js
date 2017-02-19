@@ -14,14 +14,14 @@ var grabBlocks = function(config) {
     var web3 = new Web3(new Web3.providers.HttpProvider('http://' + config.gethHost.toString() + ':' + 
         config.gethPort.toString()));
 
-
-    if('listenOnly' in config && config.listenOnly === true) 
+    if('listenOnly' in config && config.listenOnly === true) {
         listenBlocks(config, web3);
-    else
+    }
+    else {
         setTimeout(function() {
             grabBlock(config, web3, config.blocks.pop());
         }, 2000);
-
+    }
 }
 
 var listenBlocks = function(config, web3) {

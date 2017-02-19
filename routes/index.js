@@ -35,7 +35,27 @@ module.exports = function(app){
   app.post('/fiat', fiat);
   app.post('/stats', stats);
   
+  app.get('/api/address/:addr', getAddr2);
 
+}
+
+var getAddr2 = function(req, res){
+  var addr = req.params.addr;
+
+  var addrFind = Block.find( { $or: [{"transactions.to": addr}, {"transactions.from": addr}] },
+                            "transactions timestamp");//.lean(true).sort('-number').limit(MAX_ENTRIES);
+  addrFind.exec(function (err, docs) {
+    if (!docs.length){
+      res.write(JSON.stringify([]));
+      res.end();
+    } else {
+      // filter transactions
+      var txDocs = filters.filterTX(docs, addr);
+      // res.write(JSON.stringify(filters.datatableTX(txDocs)));
+      res.write(JSON.stringify(txDocs));
+      res.end();
+    }
+  });
 }
 
 var getAddr = function(req, res){
