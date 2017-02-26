@@ -10,10 +10,6 @@ module.exports = function(req, res) {
 	var addr = req.params.addr;
 	var token = req.params.token;
 
-	console.log(addr);
-	console.log(token);
-	console.log(abiForToken(token));
-
 	var abi = abiForToken(token);
 	if (abi) {
 		var contractAddress = addressForToken(token);
