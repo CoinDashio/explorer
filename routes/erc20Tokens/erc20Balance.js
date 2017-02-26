@@ -1,8 +1,6 @@
 var eth = require('../web3relay').eth;
 
 var pluAbi = require('./abis/plu.json');
-var testcoinAbi = require('./abis/testcoin.json');
-
 
 var etherUnits = require(__lib + "etherUnits.js")
 
@@ -32,19 +30,11 @@ var abiForToken = function(token) {
 		return pluAbi;
 	}
 
-	if (token === "testcoin") {
-		return testcoinAbi;
-	}
-
 	return null;
 }
 
 var addressForToken = function(token) {
 	if (token === "plu") {
-		return "0xD8912C10681D8B21Fd3742244f44658dBA12264E";
-	}
-
-	if (token === "testcoin") {
 		return "0xc6a37f61bec932e299320b1e656df72016b62637";
 	}
 
