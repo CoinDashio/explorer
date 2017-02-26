@@ -13,12 +13,15 @@ var etherUnits = require(__lib + "etherUnits.js")
 var extractTX = require('./filters').extractTX;
 var getLatestBlocks = require('./index').getLatestBlocks;
 
+var path = require('path');
+
 // load config
 var fs = require('fs');
 var config = {};
 
 try {
-    var configContents = fs.readFileSync('./config.json');
+    var path = path.join(__dirname, '..', 'config.json');
+    var configContents = fs.readFileSync(path);
     config = JSON.parse(configContents);
 }
 catch (error) {
