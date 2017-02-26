@@ -100,7 +100,7 @@ var checkBlockDBExistsThenWrite = function(web3, blockData, nextTime) {
 var config = {};
 
 try {
-    var configContents = fs.readFileSync('config.json');
+    var configContents = fs.readFileSync('./config.json');
     config = JSON.parse(configContents);
 }
 catch (error) {
