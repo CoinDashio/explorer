@@ -19,6 +19,8 @@ module.exports = function(app){
   var fiat = require('./fiat');
   var stats = require('./stats');
 
+   var erc20Balance = require('./erc20Tokens/erc20Balance');
+
   /* 
     Local DB: data request format
     { "address": "0x1234blah", "txin": true } 
@@ -39,7 +41,7 @@ module.exports = function(app){
   
   app.get('/api/address/:addr', getAddr2);
   app.get('/api/balance/:addr', getBalance);
-
+  app.get('/api/balance/:token/:addr', erc20Balance);
 }
 
 var getBalance = function(req, res) {
