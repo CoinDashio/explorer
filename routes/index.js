@@ -3,6 +3,7 @@ var Block     = mongoose.model( 'Block' );
 var filters = require('./filters')
 
 var eth = require('./web3relay').eth;
+var etherUnits = require(__lib + "etherUnits.js")
 
 //var Memcached = require('memcached');
 //var memcached = new Memcached("localhost:11211");
@@ -54,7 +55,8 @@ var getBalance = function(req, res) {
 
   eth.getBalance(addr, function(error, result) {
     if (!error) {
-      res.write(JSON.stringify({"balance": result.toString(10)}));
+      var balanceEth = etherUnits.toEther(result, 'wei');
+      res.write(JSON.stringify({"balance": balanceEth}));
       res.end();
     }
     else {

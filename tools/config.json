@@ -1,7 +1,7 @@
 {
-	"gethHost": "frontier-lb.ether.camp",
-    "gethPort": 80,
-    "blocks": [ {"start": 2000000, "end": 2000100}],
+	"gethHost": "139.162.194.77",
+    "gethPort": 4444,
+    "blocks": [ {"start": 267953, "end": "latest"}],
     "quiet": false,
     "terminateAtExistingDB": false,
     "listenOnly": false
