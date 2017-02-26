@@ -2,6 +2,8 @@ var mongoose = require( 'mongoose' );
 var Block     = mongoose.model( 'Block' );
 var filters = require('./filters')
 
+var eth = require('./web3relay').eth;
+
 //var Memcached = require('memcached');
 //var memcached = new Memcached("localhost:11211");
 
@@ -36,7 +38,29 @@ module.exports = function(app){
   app.post('/stats', stats);
   
   app.get('/api/address/:addr', getAddr2);
+  app.get('/api/balance/:addr', getBalance);
 
+}
+
+var getBalance = function(req, res) {
+  var addr = req.params.addr;
+
+  if (typeof addr !== "undefined")
+    addr = addr.toLowerCase();
+  else 
+    res.write("No Address");
+
+  eth.getBalance(addr, function(error, result) {
+    if (!error) {
+      res.write(JSON.stringify({"balance": result.toString(10)}));
+      res.end();
+    }
+    else {
+      var errorStr = "Could not fetch balance: " + error;
+      res.write(JSON.stringify({"error":errorStr}));
+      res.end();
+    }
+  });
 }
 
 var getAddr2 = function(req, res){
