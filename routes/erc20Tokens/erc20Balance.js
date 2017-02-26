@@ -1,6 +1,10 @@
 var eth = require('../web3relay').eth;
 
 var pluAbi = require('./abis/plu.json');
+var testcrowdsaleAbi = require('./abis/testcrowdsale.json');
+
+
+var etherUnits = require(__lib + "etherUnits.js")
 
 module.exports = function(req, res) {
 	var addr = req.params.addr;
@@ -8,13 +12,14 @@ module.exports = function(req, res) {
 
 	console.log(addr);
 	console.log(token);
+	console.log(abiForToken(token));
 
 	var abi = abiForToken(token);
 	if (abi) {
 		var contractAddress = addressForToken(token);
 		if (contractAddress) {
 			var contract = eth.contract(abi).at(contractAddress);	
-			res.write(JSON.stringify({"balance": contract.balanceOf(addr)}));
+			res.write(JSON.stringify({"balance": etherUnits.toEther(contract.balanceOf(addr), 'wei')}));
 		    res.end();
 		}
 		else {
@@ -31,12 +36,20 @@ var abiForToken = function(token) {
 		return pluAbi;
 	}
 
+	if (token === "testcrowdsale") {
+		return testcrowdsaleAbi;
+	}
+
 	return null;
 }
 
 var addressForToken = function(token) {
 	if (token === "plu") {
 		return "0xD8912C10681D8B21Fd3742244f44658dBA12264E";
+	}
+
+	if (token === "testcrowdsale") {
+		return "0xc6a37f61bec932e299320b1e656df72016b62637";
 	}
 
 	return null;
